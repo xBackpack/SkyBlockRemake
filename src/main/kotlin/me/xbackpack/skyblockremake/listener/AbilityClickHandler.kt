@@ -1,5 +1,6 @@
 package me.xbackpack.skyblockremake.listener
 
+import me.xbackpack.skyblockremake.SkyblockItemRegistry
 import me.xbackpack.skyblockremake.util.getSkyblockId
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
@@ -16,7 +17,10 @@ class AbilityClickHandler : Listener {
 
             val skyblockId = heldItem.getSkyblockId() ?: return
 
-            if (skyblockId == "rogue_sword") {
+            SkyblockItemRegistry.getById(skyblockId)?.let {
+                it.abilities.forEach { ability ->
+                    ability.use(player)
+                }
             }
         }
     }

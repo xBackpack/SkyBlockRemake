@@ -1,10 +1,7 @@
 package me.xbackpack.skyblockremake.item.property
 
 import me.xbackpack.skyblockremake.item.base.SkyblockProperty
-import me.xbackpack.skyblockremake.util.buildComponent
-import me.xbackpack.skyblockremake.util.generateCooldownDescriptor
-import me.xbackpack.skyblockremake.util.generateManaCostDescriptor
-import me.xbackpack.skyblockremake.util.toComponent
+import me.xbackpack.skyblockremake.item.builder.ComponentBuilder
 import net.kyori.adventure.text.Component
 import org.bukkit.Sound
 import org.bukkit.SoundCategory
@@ -22,25 +19,27 @@ data class SkyblockItemAbility(
     private var lastUsed: TimeMark? = null
 
     override fun convertToLoreDescriptor() =
-        buildComponent(
-            """
-            <gold>Ability: $name</gold> <yellow><bold>RIGHT CLICK</bold></yellow><newline>
-            $message<newline>
-            <1>
-            <2><newline>
-            """.trimIndent(),
-            if (cost > 0) generateManaCostDescriptor(50).appendNewline() else Component.empty(),
-            if (cooldown.isPositive()) generateCooldownDescriptor(cooldown.inWholeSeconds.toInt()) else Component.empty(),
-        )
+        ComponentBuilder {
+            text("<gold>Ability: $name</gold> <yellow><bold>RIGHT CLICK</bold></yellow>")
+            newline()
+            append(message)
+            newline()
+            if (cost > 0) text(getManaCost(50))
+            newline()
+            if (cooldown.isPositive()) text(getCooldown(cooldown.inWholeSeconds.toInt()))
+        }.get()
 
     fun use(player: Player) {
         lastUsed?.let {
             val timeElapsed = it.elapsedNow()
             if (timeElapsed < cooldown) {
                 player.playSound(player.location, Sound.ENTITY_ENDERMAN_TELEPORT, SoundCategory.MASTER, 1.0F, 0.5F)
-                val timeRemaining = cooldown - timeElapsed
+                val timeRemaining = (cooldown - timeElapsed).inWholeSeconds.toInt()
                 player.sendMessage(
-                    buildComponent("<red>This ability is on cooldown for <1>s.</red>", timeRemaining.inWholeSeconds.toComponent()),
+                    ComponentBuilder {
+                        text("<red>This ability is on cooldown for <time>.</red>")
+                        replace("<time>", "$timeRemaining")
+                    }.get(),
                 )
                 return
             }

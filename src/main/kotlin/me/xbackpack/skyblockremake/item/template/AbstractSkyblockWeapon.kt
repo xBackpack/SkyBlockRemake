@@ -9,10 +9,10 @@ import me.xbackpack.skyblockremake.item.property.SkyblockItemAbility
 import me.xbackpack.skyblockremake.item.property.SkyblockItemStat
 import me.xbackpack.skyblockremake.util.addRarityToLore
 import me.xbackpack.skyblockremake.util.addSeparator
-import me.xbackpack.skyblockremake.util.appendReforgeableDescriptor
 import me.xbackpack.skyblockremake.util.buildDisplayName
 import me.xbackpack.skyblockremake.util.idKey
 import net.kyori.adventure.text.Component
+import net.kyori.adventure.text.format.NamedTextColor
 import org.bukkit.Material
 import org.bukkit.inventory.ItemStack
 import org.bukkit.persistence.PersistentDataType
@@ -68,6 +68,6 @@ abstract class AbstractSkyblockWeapon(
     }
 
     private fun addReforgeableToLore(lore: ItemLore.Builder) {
-        lore.addLine(Component.empty().appendReforgeableDescriptor())
+        lore.addLine(Component.text("This item can be reforged!", NamedTextColor.DARK_GRAY))
     }
 }
