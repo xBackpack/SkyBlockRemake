@@ -1,6 +1,6 @@
 # Project exclude paths
 target/
 out/
-.idea/
+.idea/*
 
-SkyBlockRemake.iml
+/SkyBlockRemake.iml
