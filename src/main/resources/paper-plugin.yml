@@ -1,0 +1,7 @@
+name: SkyBlockRemake
+version: '${project.version}'
+main: me.xbackpack.skyblockremake.SkyBlockRemake
+api-version: '1.21'
+prefix: SkyBlock
+authors: [ xBackpack ]
+description: A SkyBlock remake attempt
