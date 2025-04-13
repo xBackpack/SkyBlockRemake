@@ -1,6 +1,6 @@
 <component name="ArtifactManager">
   <artifact type="jar" build-on-make="true" name="SkyBlockRemake">
-    <output-path>$PROJECT_DIR$/out/SkyBlockRemake</output-path>
+    <output-path>$PROJECT_DIR$/../../../Testing Server/plugins</output-path>
     <root id="archive" name="SkyBlockRemake.jar">
       <element id="module-output" name="SkyBlockRemake" />
       <element id="extracted-dir" path="$USER_HOME$/.m2/repository/org/jetbrains/kotlin/kotlin-stdlib/2.1.20/kotlin-stdlib-2.1.20.jar" path-in-jar="/" />

@@ -2,7 +2,6 @@ package me.xbackpack.skyblockremake.item.property
 
 import me.xbackpack.skyblockremake.item.base.SkyblockProperty
 import me.xbackpack.skyblockremake.item.builder.ComponentBuilder
-import net.kyori.adventure.text.Component
 import org.bukkit.Sound
 import org.bukkit.SoundCategory
 import org.bukkit.entity.Player
@@ -11,7 +10,7 @@ import kotlin.time.TimeMark
 
 data class SkyblockItemAbility(
     val name: String,
-    val message: Component,
+    val message: String,
     val cost: Int,
     val cooldown: Duration,
     val function: (Player) -> Unit,
@@ -22,7 +21,7 @@ data class SkyblockItemAbility(
         ComponentBuilder {
             text("<gold>Ability: $name</gold> <yellow><bold>RIGHT CLICK</bold></yellow>")
             newline()
-            append(message)
+            text(message)
             newline()
             if (cost > 0) text(getManaCost(50))
             newline()

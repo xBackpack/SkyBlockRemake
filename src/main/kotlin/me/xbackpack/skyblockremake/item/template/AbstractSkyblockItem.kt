@@ -3,8 +3,8 @@ package me.xbackpack.skyblockremake.item.template
 import io.papermc.paper.datacomponent.DataComponentTypes
 import io.papermc.paper.datacomponent.item.ItemLore
 import me.xbackpack.skyblockremake.item.base.SkyblockItem
+import me.xbackpack.skyblockremake.item.builder.ComponentBuilder
 import me.xbackpack.skyblockremake.item.enum.SkyblockRarity
-import me.xbackpack.skyblockremake.util.addRarityToLore
 import me.xbackpack.skyblockremake.util.buildDisplayName
 import me.xbackpack.skyblockremake.util.idKey
 import net.kyori.adventure.text.Component
@@ -25,7 +25,7 @@ abstract class AbstractSkyblockItem(
 
         val lore = ItemLore.lore()
 
-        addRarityToLore(lore, rarity)
+        addRarityToLore(lore)
 
         item.setData(DataComponentTypes.LORE, lore)
 
@@ -34,5 +34,9 @@ abstract class AbstractSkyblockItem(
         }
 
         return item
+    }
+
+    private fun addRarityToLore(lore: ItemLore.Builder) {
+        lore.addLine(ComponentBuilder { text("<${rarity.colour}><bold>${rarity.name}</bold></${rarity.colour}>") }.get())
     }
 }

@@ -8,7 +8,6 @@ import me.xbackpack.skyblockremake.item.enum.SkyblockType
 import me.xbackpack.skyblockremake.item.property.SkyblockItemAbility
 import me.xbackpack.skyblockremake.item.property.SkyblockItemStat
 import me.xbackpack.skyblockremake.util.createSkyblockWeapon
-import net.kyori.adventure.text.format.NamedTextColor
 import org.bukkit.Material
 import kotlin.time.Duration.Companion.seconds
 
@@ -30,13 +29,17 @@ object SkyblockItemRegistry {
                     SkyblockItemAbility(
                         "Speed Boost",
                         ComponentBuilder {
-                            text("Grants <stat> for <time>.", NamedTextColor.GRAY)
+                            text("<gray>Grants <stat> for <time>.</gray>")
                             replace("<stat>", getStat(SkyblockStatType.SPEED, 200))
                             replace("<time>", getTime(5))
-                        }.get(),
+                        }.getRaw(),
                         50,
                         5.seconds,
-                    ) { player -> player.sendMessage("Clicked!") },
+                    ) { player ->
+                        player.walkSpeed += 100
+
+                        SkyBlockRemake.scheduler.runTaskLater(SkyBlockRemake.instance, Runnable { player.walkSpeed -= 100 }, 30 * 20)
+                    },
                 )
             }
     }

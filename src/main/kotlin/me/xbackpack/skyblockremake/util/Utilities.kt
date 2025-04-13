@@ -7,7 +7,7 @@ import me.xbackpack.skyblockremake.item.builder.SkyblockItemBuilder
 import me.xbackpack.skyblockremake.item.builder.SkyblockWeaponBuilder
 import me.xbackpack.skyblockremake.item.enum.SkyblockRarity
 import net.kyori.adventure.text.Component
-import net.kyori.adventure.text.format.TextDecoration
+import net.kyori.adventure.text.minimessage.MiniMessage
 import org.bukkit.NamespacedKey
 import org.bukkit.inventory.ItemStack
 import org.bukkit.persistence.PersistentDataType
@@ -33,16 +33,14 @@ fun createSkyblockWeapon(
 fun buildDisplayName(
     name: Component,
     rarity: SkyblockRarity,
-) = name.color(rarity.colour)
-
-fun addRarityToLore(
-    lore: ItemLore.Builder,
-    rarity: SkyblockRarity,
-) {
-    lore.addLine(ComponentBuilder { text("$rarity", rarity.colour, TextDecoration.BOLD) }.get())
+): Component {
+    val nameString = MiniMessage.miniMessage().serialize(name)
+    return ComponentBuilder { text("<${rarity.colour}>$nameString</${rarity.colour}>") }.get()
 }
 
-fun ItemLore.Builder.addSeparator() = addLine(Component.empty())
+fun ItemLore.Builder.addSeparator() {
+    addLine(Component.space())
+}
 
 val idKey = NamespacedKey(SkyBlockRemake.instance, "id")
 

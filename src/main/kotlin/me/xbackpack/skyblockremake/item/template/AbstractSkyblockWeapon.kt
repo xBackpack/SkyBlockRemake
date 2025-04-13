@@ -3,16 +3,15 @@ package me.xbackpack.skyblockremake.item.template
 import io.papermc.paper.datacomponent.DataComponentTypes
 import io.papermc.paper.datacomponent.item.ItemLore
 import me.xbackpack.skyblockremake.item.base.SkyblockWeapon
+import me.xbackpack.skyblockremake.item.builder.ComponentBuilder
 import me.xbackpack.skyblockremake.item.enum.SkyblockRarity
 import me.xbackpack.skyblockremake.item.enum.SkyblockType
 import me.xbackpack.skyblockremake.item.property.SkyblockItemAbility
 import me.xbackpack.skyblockremake.item.property.SkyblockItemStat
-import me.xbackpack.skyblockremake.util.addRarityToLore
 import me.xbackpack.skyblockremake.util.addSeparator
 import me.xbackpack.skyblockremake.util.buildDisplayName
 import me.xbackpack.skyblockremake.util.idKey
 import net.kyori.adventure.text.Component
-import net.kyori.adventure.text.format.NamedTextColor
 import org.bukkit.Material
 import org.bukkit.inventory.ItemStack
 import org.bukkit.persistence.PersistentDataType
@@ -30,6 +29,8 @@ abstract class AbstractSkyblockWeapon(
     override fun buildItem(): ItemStack {
         val item = ItemStack(material)
 
+        item.unsetData(DataComponentTypes.ATTRIBUTE_MODIFIERS)
+
         item.setData(DataComponentTypes.ITEM_NAME, buildDisplayName(displayName, rarity))
 
         val lore = ItemLore.lore()
@@ -40,7 +41,7 @@ abstract class AbstractSkyblockWeapon(
 
         if (reforgeable) addReforgeableToLore(lore)
 
-        addRarityToLore(lore, rarity)
+        addRarityToLore(lore)
 
         item.setData(DataComponentTypes.LORE, lore)
 
@@ -68,6 +69,10 @@ abstract class AbstractSkyblockWeapon(
     }
 
     private fun addReforgeableToLore(lore: ItemLore.Builder) {
-        lore.addLine(Component.text("This item can be reforged!", NamedTextColor.DARK_GRAY))
+        lore.addLine(ComponentBuilder { text("<dark_gray>This item can be reforged!</dark_gray>") }.get())
+    }
+
+    private fun addRarityToLore(lore: ItemLore.Builder) {
+        lore.addLine(ComponentBuilder { text("<${rarity.colour}><bold>${rarity.name} ${type.name}</bold></${rarity.colour}>") }.get())
     }
 }
